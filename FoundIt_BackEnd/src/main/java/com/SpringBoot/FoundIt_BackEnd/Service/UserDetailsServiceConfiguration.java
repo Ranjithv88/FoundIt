@@ -1,7 +1,7 @@
 package com.SpringBoot.FoundIt_BackEnd.Service;
 
 import com.SpringBoot.FoundIt_BackEnd.Repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
-@RequiredArgsConstructor
 public class UserDetailsServiceConfiguration implements UserDetailsService {
 
-    private final UserRepository repository;
+    @Autowired
+    private UserRepository repository;
 
     @Override
     @Transactional

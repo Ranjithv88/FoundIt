@@ -2,15 +2,7 @@ package com.SpringBoot.FoundIt_BackEnd.Model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class Login {
 
     @NotBlank(message = " UserName is Mandatory ......! ")
@@ -20,6 +12,22 @@ public class Login {
     @NotBlank(message = " Password is Mandatory ......! ")
     @Size(min = 8,message = " Too Weak .......! ")
     private String password;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }
 

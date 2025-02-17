@@ -1,7 +1,7 @@
 package com.SpringBoot.FoundIt_BackEnd.Security;
 
 import com.SpringBoot.FoundIt_BackEnd.Exception.AuthEntryPoint;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -16,12 +16,14 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-@AllArgsConstructor
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    @Autowired
     private AuthenticationFilter authenticationFilter;
+    @Autowired
     private AuthEntryPoint authenticationEntryPoint;
+    @Autowired
     private AuthenticationProvider authenticationProvider;
 
     private final String[] guest = {"/login", "/register", "/test", "/products/**"};

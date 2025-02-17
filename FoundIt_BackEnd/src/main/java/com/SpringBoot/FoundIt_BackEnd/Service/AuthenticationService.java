@@ -6,7 +6,7 @@ import com.SpringBoot.FoundIt_BackEnd.Model.Register;
 import com.SpringBoot.FoundIt_BackEnd.Model.User;
 import com.SpringBoot.FoundIt_BackEnd.Repository.UserRepository;
 import com.SpringBoot.FoundIt_BackEnd.Security.JwtUtils;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,30 +21,38 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-    private final  PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                                 JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
+    }
 
     public ResponseEntity<String> register(Register data) {
         try {
             boolean userNameExist = userRepository.existsByUserName(data.getUserName());
             if (!userNameExist) {
-                User newUser = User.builder()
-                    .userName(data.getUserName())
-                    .email(data.getEmail())
-                    .password(passwordEncoder.encode(data.getPassword()))
-                    .contact(data.getContact())
-                    .role(Role.USER)
-                .build();
+                User newUser = new User();
+                newUser.setUserName(data.getUserName());
+                newUser.setEmail(data.getEmail());
+                newUser.setPassword(passwordEncoder.encode(data.getPassword()));
+                newUser.setContact(data.getContact());
+                newUser.setRole(Role.USER);
+
                 userRepository.save(newUser);
                 return ResponseEntity.status(HttpStatus.CREATED).body("Registered Successfully...!");
             }
             return ResponseEntity.status(HttpStatus.CONFLICT).body("That UserName is taken, Try another...!");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something Went wrong, please try again later....!");
         }
     }
@@ -68,9 +76,11 @@ public class AuthenticationService {
         }
     }
 
-    public ResponseEntity<Map<String, Object>> getUserService (String userName) {
+    public ResponseEntity<Map<String, Object>> getUserService(String userName) {
         User userDetails = userRepository.findByUserDetails(userName);
-        Map<String, Object> response = Map.of("userName", userDetails.getUsername(), "email", userDetails.getEmail(), "contact", userDetails.getContact());
+        Map<String, Object> response = Map.of("userName", userDetails.getUsername(),
+                "email", userDetails.getEmail(),
+                "contact", userDetails.getContact());
         return ResponseEntity.ok(response);
     }
 

@@ -4,7 +4,7 @@ import com.SpringBoot.FoundIt_BackEnd.Model.Login;
 import com.SpringBoot.FoundIt_BackEnd.Model.Register;
 import com.SpringBoot.FoundIt_BackEnd.Service.AuthenticationService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    @Autowired
+    private AuthenticationService service;
 
     @PostMapping("/register")
     public ResponseEntity<String> register (@Valid @RequestBody Register data) {

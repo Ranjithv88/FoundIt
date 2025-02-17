@@ -1,13 +1,11 @@
 package com.SpringBoot.FoundIt_BackEnd.Controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequiredArgsConstructor
 public class TestingController {
 
     @GetMapping("/test")
